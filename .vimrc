@@ -76,7 +76,10 @@ noremap <Left> <nop>
 
 " Highlight hex colors
 "nnoremap <leader>h :call HighlightHexColors()<CR>
-"function! HighlightHexColors()
-"	echom "Highlighting hex colors"
-"endfunction
+function! HighlightHexColors()
+        let l:hex_regex= '\(#\)\@<=[a-z0-9]\{6}'
+        let l:line = getline(".")
+        let match = matchstr(line, l:hex_regex)
+        echom "Match: ".match
+endfunction
 
