@@ -73,13 +73,30 @@ noremap <Left> <nop>
   "endif
   "echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 "endfunc
-
 " Highlight hex colors
+"http://vim.1045645.n5.nabble.com/Check-if-highlight-exists-and-not-quot-cleared-quot-td1185235.html
+
+"https://stackoverflow.com/questions/16737192/vim-remove-highlight-not-search-highlight
+highlight hexColors guifg=red guibg=green
+syntax match hexColors '\(#\)\@<=[a-z0-9]\{6}'
 "nnoremap <leader>h :call HighlightHexColors()<CR>
+nnoremap <leader>h :call HighlightText()<CR>
 function! HighlightHexColors()
-        let l:hex_regex= '\(#\)\@<=[a-z0-9]\{6}'
-        let l:line = getline(".")
-        let match = matchstr(line, l:hex_regex)
-        echom "Match: ".match
+	let l:hex_regex= '\(#\)\@<=[a-z0-9]\{6}'
+	let l:line = getline(".")
+	let l:match = matchstr(line, l:hex_regex)
+	execute 'syn keyword var_' . match '#'.match
+	execute 'hi default var_' . match  ' guifg=#' . match
+	echom 'syn keyword var_' . match . ' #' . match
+	echom 'hi default var_' . match . ' guifg=#' . match
+	echom "Match: ".match
+endfunction
+
+function! HighlightText()
+	let line = getline(".")
+	let match = matchstr(line, '\(static final String \| static final Integer \)\@<=[a-z_]*\( = \S\)\@=')
+	execute 'syn keyword var_'.match match
+	execute 'hi default var_'.match . ' guifg=#ff0000'
+	echom 'Highlighted ' . match . ' to #ff0000'
 endfunction
 
