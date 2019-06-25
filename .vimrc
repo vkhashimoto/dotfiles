@@ -89,3 +89,22 @@ function! HighlightHexColors()
 	echom "Running: " . l:hi_command
 endfunction
 
+nnoremap <leader>dc :call DoConstructor()<CR>
+function! DoConstructor()
+	let l:constructor_end = "):"
+	normal! f=w
+	normal! ma
+	let l:word = expand("<cword>")
+	"echom "Word: " . l:word
+	normal! \<esc>
+	normal! gg2gg
+	let l:line = getline(".")	
+	"echom "Line: " . l:line
+	let l:new_line = substitute(l:line, l:constructor_end, "", "")
+	"echom "New line: " . l:new_line
+	let l:new_line = l:new_line . ", " . l:word . l:constructor_end
+	"echom "New line (2): " . l:new_line
+	call setline(".", l:new_line)
+	normal! `a
+	normal! j
+endfunction
