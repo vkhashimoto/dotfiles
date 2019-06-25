@@ -1,8 +1,8 @@
 "set nocompatible
 syntax on
 "set background=dark
-"set termguicolors
-"color color
+set termguicolors
+color color
 " GUI colors on terminal
 "Be able to identify filetype
 "filetype on
@@ -49,54 +49,43 @@ noremap <Left> <nop>
 
 " Git Functions
 " Get current git branch
-"function! GitBranch()
-"	return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-"endfunction
+function! GitBranch()
+	return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
 
 " statusline
 
-"function! StatuslineGit()
-"	let l:branchname = GitBranch()
-"	return strlen(l:branchname) > 0?' '.l:branchname.' ':''
-"endfunction
-
-"set laststatus=2
-"set statusline=
-"set statusline+=%#CursorColumn#
-"set statusline+=%{StatuslineGit()}
-
-" Show syntax highlighting groups for word under cursor
-"nmap <C-S-P> :call <SID>SynStack()<CR>
-"function! <SID>SynStack()
- " if !exists("*synstack")
-  "  return
-  "endif
-  "echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-"endfunc
-" Highlight hex colors
-"http://vim.1045645.n5.nabble.com/Check-if-highlight-exists-and-not-quot-cleared-quot-td1185235.html
-
-"https://stackoverflow.com/questions/16737192/vim-remove-highlight-not-search-highlight
-highlight hexColors guifg=red guibg=green
-syntax match hexColors '\(#\)\@<=[a-z0-9]\{6}'
-"nnoremap <leader>h :call HighlightHexColors()<CR>
-nnoremap <leader>h :call HighlightText()<CR>
-function! HighlightHexColors()
-	let l:hex_regex= '\(#\)\@<=[a-z0-9]\{6}'
-	let l:line = getline(".")
-	let l:match = matchstr(line, l:hex_regex)
-	execute 'syn keyword var_' . match '#'.match
-	execute 'hi default var_' . match  ' guifg=#' . match
-	echom 'syn keyword var_' . match . ' #' . match
-	echom 'hi default var_' . match . ' guifg=#' . match
-	echom "Match: ".match
+function! StatuslineGit()
+	let l:branchname = GitBranch()
+	return strlen(l:branchname) > 0?' '.l:branchname.' ':''
 endfunction
 
-function! HighlightText()
-	let line = getline(".")
-	let match = matchstr(line, '\(static final String \| static final Integer \)\@<=[a-z_]*\( = \S\)\@=')
-	execute 'syn keyword var_'.match match
-	execute 'hi default var_'.match . ' guifg=#ff0000'
-	echom 'Highlighted ' . match . ' to #ff0000'
+set laststatus=2
+set statusline=
+set statusline+=%#CursorColumn#
+set statusline+=%{StatuslineGit()}
+
+" Show syntax highlighting groups for word under cursor
+nmap <C-S-P> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+" Highlight hex colors
+nnoremap <leader>h :call HighlightHexColors()<CR>
+function! HighlightHexColors()
+	let l:hex_regex = '\(#\)\@<=[a-z0-9]\{6}'
+	let l:line = getline(".")
+	let l:match = matchstr(line, l:hex_regex)
+	echom "Match found: " . l:match
+	let l:syn_command = "syn keyword hex_" . l:match . " " . l:match . ""
+	execute l:syn_command
+	echom "Running: " . l:syn_command
+	let l:hi_command = "hi hex_".l:match." guifg=#".l:match." guibg=#".l:match
+	execute l:hi_command
+	echom "Running: " . l:hi_command
 endfunction
 
