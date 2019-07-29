@@ -25,6 +25,8 @@ noremap <Right> <nop>
 noremap <Down> <nop>
 noremap <Left> <nop>
 
+set number
+set relativenumber
 "Put current word in uppercase
 "noremap <silent> <c-u> :call JavaUppercase()<CR>
 
