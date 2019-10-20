@@ -313,6 +313,8 @@ export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/.local/bin
 export GOPATH=$HOME/Documents/projetos/golang
 
+export PATH=$PATH:/opt/flutter/bin
+
 #sqlcmd
 export PATH=$PATH:/opt/mssql-tools/bin
 
