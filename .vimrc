@@ -7,6 +7,8 @@ color color
 "Be able to identify filetype
 "filetype on
 
+"Fix paste bug triggered by the 'inoremap jk <esc>' [200~ and [201~ 
+set t_BE=
 " <leader> 'prefix'
 let mapleader = ","
 "let maplocalleader = "\\"
