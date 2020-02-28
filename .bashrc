@@ -239,7 +239,11 @@ function gs() {
 }
 
 function gd() {
-    git diff $1
+    if [ ! -f $1 ]; then
+        git diff $(find . -name $1)
+    else
+        git diff $1
+    fi
 }
 
 function gl() {
