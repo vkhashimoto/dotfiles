@@ -187,7 +187,7 @@ set_prompt_vars() {
     gb=$(git branch 2>/dev/null | grep '^*' | colrm 1 2)
     if [ "$gb" != "" ];
     then
-        if [[ "$gb" = *"master"* ]];
+        if [[ "$gb" = *"master"* ]] || [[ "$gb" = *"main"* ]];
         then
             BRANCH_COLOR='\033[3;5;1;91m'
         elif [[ "$gb" = *"release"* ]];
@@ -325,3 +325,10 @@ export PATH=$PATH:/opt/mssql-tools/bin
 export GTK_IM_MODULE=ibus
 
 alias mvn11="JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64 && mvn"
+
+
+
+
+
+export PATH="$(yarn global bin):$PATH"
+
