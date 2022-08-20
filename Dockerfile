@@ -14,9 +14,10 @@ RUN groupadd --gid $USER_GID $USERNAME \
 	&& echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
 	&& chmod 0400 /etc/sudoers.d/$USERNAME
 
-COPY . /home/dotfiles
+WORKDIR /home/$USERNAME/dotfiles
 
-WORKDIR /home/dotfiles
+COPY . .
+
 
 USER $USERNAME
 
