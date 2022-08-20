@@ -2,6 +2,7 @@
 
 #variables
 full_install=false
+only_packages=false
 
 log () {
 	echo "|$(date "+%y-%m-%d | %H:%M:%S")|> $1"
@@ -31,11 +32,16 @@ while test $# -gt 0; do
 			echo "options:"
 			echo "-h, --help	show brief help"
 			echo "-a, --full	also install packages"
+			echo "-p, --packages	install only packages"
 			exit 0
 			;;
 		-a|--full)
 			shift
 			full_install=true
+			;;
+		-p|--packages)
+			shift
+			only_packages=true
 			;;
 		*)
 			break
@@ -45,7 +51,7 @@ done
 
 
 # install packages
-if [ "$full_install" = true ]; then
+if [ "$full_install" = true -o "$only_packages" = true ]; then
 	log "Installing packages"
 	
 	update
@@ -68,3 +74,10 @@ if [ "$full_install" = true ]; then
 fi
 
 # install dotfiles
+if [ "$only_packages" = false ]; then
+	log "Installing dotfiles"
+	cp .bash_profile $HOME
+
+	log "Installed dotfiles"
+fi
+
