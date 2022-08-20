@@ -27,16 +27,10 @@ update () {
 
 dotfile () {
 	log "Installing dotfile $1"
-	cp $HOME/$1 $HOME/dotfiles-bkp
-	cp $1 $HOME
-	log "Installed dotfile $1"
-}
-
-dotfile_and_source() {
-	dotfile $1
-	log "Sourcing $1"
+	cp -r $HOME/$1 $HOME/dotfiles-bkp
+	cp -r $1 $HOME/$1
 	. $HOME/$1
-
+	log "Installed dotfile $1"
 }
 
 
@@ -91,9 +85,25 @@ fi
 # install dotfiles
 if [ "$only_packages" = false ]; then
 	log "Installing dotfiles"
-	mkdir $HOME/dotfiles-bkp
 
-	dotfile_and_source ".bashrc"
+	log "Creating backup folder: $HOME/dotfiles-bkp"
+	mkdir $HOME/dotfiles-bkp
+	if [[ -d "$HOME/.config" ]]; then
+		log "Backing up $HOME/.config and removing it"
+		cp -r $HOME/.config $HOME/dotfiles-bkp/.config && rm -r $HOME/.config 
+	fi
+
+	log "Creating new $HOME/.config folder"
+	mkdir $HOME/.config
+
+	dotfile ".bashrc"
+
+	### NeoVim configuration
+	log "Creating neovim config folder"
+	mkdir $HOME/.config/nvim
+	log "Copying neovim dotfiles"
+	cp -r $HOME/dotfiles/.config/nvim/* $HOME/.config/nvim/
+
 
 	log "Installed dotfiles"
 fi
