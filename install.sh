@@ -25,6 +25,20 @@ update () {
 	log "Updated system"
 }
 
+dotfile () {
+	log "Installing dotfile $1"
+	cp $HOME/$1 $HOME/dotfiles-bkp
+	cp $1 $HOME
+	log "Installed dotfile $1"
+}
+
+dotfile_and_source() {
+	dotfile $1
+	log "Sourcing $1"
+	. $HOME/$1
+
+}
+
 
 while test $# -gt 0; do
 	case "$1" in
@@ -68,6 +82,7 @@ if [ "$full_install" = true -o "$only_packages" = true ]; then
 	install "tmux"
 	install "git"
 	install "curl"
+	install "bsdmainutils"
 	
 	log "Installed packages"
 
@@ -76,7 +91,9 @@ fi
 # install dotfiles
 if [ "$only_packages" = false ]; then
 	log "Installing dotfiles"
-	cp .bash_profile $HOME
+	mkdir $HOME/dotfiles-bkp
+
+	dotfile_and_source ".bashrc"
 
 	log "Installed dotfiles"
 fi
