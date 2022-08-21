@@ -4,6 +4,11 @@ require("configs/settings")
 require("plugins/plugins")
 
 
+-- basic config --
+vim.wo.number = true
+vim.wo.relativenumber = true
+vim.go.laststatus = 2
+
 -- remaps --
 vim.g.mapleader = " "
 vim.api.nvim_set_keymap("i", "jk", "<esc>", default_opts)
