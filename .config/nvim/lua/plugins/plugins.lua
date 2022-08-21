@@ -28,12 +28,19 @@ local packer = require("packer")
 
 packer.startup(function()
 	use( 'wbthomason/packer.nvim' )
+
+	use({
+		'nvim-telescope/telescope.nvim',
+		tag = "0.1.0",
+		requires = { { 'nvim-lua/plenary.nvim'} },
+		-- without this, telescope will not load on the first time
+		after = 'plenary.nvim'
+	})
 	use({ 
 		"catppuccin/nvim", 
 		as = "catppuccin" ,
 		config = get_config("catppuccin"),
 	})
-
 	-- sync when opening nvim for the first time
 	if packer_bootstrap then
 		packer.sync()

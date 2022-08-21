@@ -77,6 +77,10 @@ if [ "$full_install" = true -o "$only_packages" = true ]; then
 	install "git"
 	install "curl"
 	install "bsdmainutils"
+
+	# NeoVim - telescope dependency
+	install "ripgrep"
+
 	
 	log "Installed packages"
 
