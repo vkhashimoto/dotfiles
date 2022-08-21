@@ -46,6 +46,13 @@ packer.startup(function()
 		"folke/which-key.nvim",
 		config = get_config("which-key")
 	})
+
+	use({
+		"nvim-lualine/lualine.nvim",
+		requires = { "kyazdani42/nvim-web-devicons" },
+		after = "nvim-web-devicons",
+		config = get_config("lualine")
+	})
 	-- sync when opening nvim for the first time
 	if packer_bootstrap then
 		packer.sync()
