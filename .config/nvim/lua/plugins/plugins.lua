@@ -28,7 +28,14 @@ local packer = require("packer")
 
 packer.startup(function()
 	use( 'wbthomason/packer.nvim' )
+	-- themes
+	use({ 
+		"catppuccin/nvim", 
+		as = "catppuccin" ,
+		config = get_config("catppuccin"),
+	})
 
+	-- telescope
 	use({
 		'nvim-telescope/telescope.nvim',
 		tag = "0.1.0",
@@ -37,22 +44,23 @@ packer.startup(function()
 		after = 'plenary.nvim',
 		config = get_config("telescope"),
 	})
-	use({ 
-		"catppuccin/nvim", 
-		as = "catppuccin" ,
-		config = get_config("catppuccin"),
+	use({
+		'nvim-telescope/telescope-file-browser.nvim',
 	})
+
+	-- mappings
 	use({
 		"folke/which-key.nvim",
 		config = get_config("which-key")
 	})
 
+	-- statuslines
 	use({
 		"nvim-lualine/lualine.nvim",
-		requires = { "kyazdani42/nvim-web-devicons" },
-		after = "nvim-web-devicons",
+		requires = { { 'kyazdani42/nvim-web-devicons', opt = true } },
 		config = get_config("lualine")
 	})
+
 	-- sync when opening nvim for the first time
 	if packer_bootstrap then
 		packer.sync()

@@ -32,6 +32,7 @@ wk.register({
 		s = { "<cmd>Telescope live_grep<cr>", "Search string" },
 		w = { "<cmd>Telescope grep_string<cr>", "Search current string" },
 		m = { "<cmd>Telescope marks<cr>", "Find marks" },
+		b = { "<cmd>Telescope file_browser path=%:p:h<cr>", "File Browser" },
 	}
 
 }, { prefix = "<leader>"} )

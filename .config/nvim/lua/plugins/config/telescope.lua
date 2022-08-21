@@ -34,5 +34,13 @@ telescope.setup({
 				return {"--hidden"}
 			end
 		}
+	},
+	extensions = {
+		file_browser = {
+			theme = "ivy",
+			hijack_newtr = true,
+		}
 	}
 })
+
+telescope.load_extension("file_browser")
