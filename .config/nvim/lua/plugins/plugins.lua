@@ -61,6 +61,23 @@ packer.startup(function()
 		config = get_config("lualine")
 	})
 
+
+	-- lsp
+	use({
+		'neovim/nvim-lspconfig'
+	})
+	use({
+		'mfussenegger/nvim-jdtls',
+	})
+	use({
+		'L3MON4D3/LuaSnip'
+	})
+	use({
+		'hrsh7th/nvim-cmp',
+		requires = { { 'hrsh7th/cmp-nvim-lsp' } },
+		config = get_config('nvim-cmp')
+	})
+
 	-- sync when opening nvim for the first time
 	if packer_bootstrap then
 		packer.sync()
