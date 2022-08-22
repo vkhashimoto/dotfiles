@@ -70,6 +70,9 @@ packer.startup(function()
 		'mfussenegger/nvim-jdtls',
 	})
 	use({
+		'mfussenegger/nvim-dap'
+	})
+	use({
 		'L3MON4D3/LuaSnip'
 	})
 	use({
