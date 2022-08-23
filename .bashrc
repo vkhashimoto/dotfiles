@@ -152,3 +152,7 @@ source /usr/share/bash-completion/completions/git
 
 # cd without cd
 shopt -s autocd
+
+
+#move to another file
+alias vim=nvim
