@@ -1,4 +1,5 @@
 --vim.cmd([[ packadd packer.nvim ]])
+local userConfig = require("configs/user-config")
 
 local fn = vim.fn
 
@@ -63,23 +64,25 @@ packer.startup(function()
 
 
 	-- lsp
-	use({
-		'neovim/nvim-lspconfig'
-	})
-	use({
-		'mfussenegger/nvim-jdtls',
-	})
-	use({
-		'mfussenegger/nvim-dap'
-	})
-	use({
-		'L3MON4D3/LuaSnip'
-	})
-	use({
-		'hrsh7th/nvim-cmp',
-		requires = { { 'hrsh7th/cmp-nvim-lsp' } },
-		config = get_config('nvim-cmp')
-	})
+	if userConfig.lsp == true then
+		use({
+			'neovim/nvim-lspconfig'
+		})
+		use({
+			'mfussenegger/nvim-jdtls',
+		})
+		use({
+			'mfussenegger/nvim-dap'
+		})
+		use({
+			'L3MON4D3/LuaSnip'
+		})
+		use({
+			'hrsh7th/nvim-cmp',
+			requires = { { 'hrsh7th/cmp-nvim-lsp' } },
+			config = get_config('nvim-cmp')
+		})
+	end
 
 	-- sync when opening nvim for the first time
 	if packer_bootstrap then
