@@ -1,0 +1,86 @@
+
+
+* Basic settings
+
+** UI Settings
+#+begin_src emacs-lisp
+(tool-bar-mode -1) ; This hides the toolbar
+(menu-bar-mode -1) ; This hides the menu
+(scroll-bar-mode -1)  ; This hides the scrollbar
+(tooltip-mode -1) ; This hides the tips when hovering the mouse
+(setq visible-bell t) ; Visual warning for invalid operation
+#+end_src
+
+** Text editor settings
+#+begin_src emacs-lisp
+(display-line-numbers-mode t) ;This shows the line number
+(setq display-line-numbers 'relative) ;Show relative line number
+(global-hl-line-mode t) ;Highlight the current line
+(setq-default cursor-type 'hbar) ;Change the cursos to a horizontal bar
+(delete-selection-mode t) ; Delete selected text on typing
+#+end_src
+
+#+begin_src emacs-lisp
+(global-unset-key (kbd "C-z")) ; Disable Ctrl + z
+#+end_src
+* Packages
+** Add MELPA to the package-archives
+#+begin_src emacs-lisp
+(require 'package)
+(add-to-list 'package-archives
+	'("melpa" . "https://melpa.org/packages/"))
+(package-refresh-contents)
+(package-initialize)
+#+end_src
+
+** use-package
+#+begin_src emacs-lisp
+(unless (package-installed-p 'use-package)
+	(package-install 'use-package))
+(require 'use-package)
+(setq use-package-always-ensure t)
+#+end_src
+
+** use catppuccin theme (https://github.com/catppuccin/emacs)
+#+begin_src emacs-lisp
+(use-package catppuccin-theme)
+(load-theme 'catppuccin t) ; Loads the theme
+#+end_src
+
+** use font
+
+You may need to run (M-x fira-code-mode-install-fonts RET)
+#+begin_src emacs-lisp
+(use-package fira-code-mode
+	:config (global-fira-code-mode))
+#+end_src
+
+
+** install which-key
+
+#+begin_src emacs-lisp
+(use-package which-key)
+#+end_src
+
+*** What is Org Mode?
+**** Org-tempo
+     Allow expansions in Org Mode
+
+     #+begin_src emacs-lisp
+     (use-package org-tempo
+     	:ensure nil) ;; Don't try to install, it's already there
+     #+end_src
+
+**** Org Bullets
+
+#+begin_src emacs-lisp
+(use-package org-bullets)
+(add-hook 'org-mode-hook #'org-bullets-mode)
+#+end_src
+**** Enable code syntax highlight
+	#+begin_src emacs-lisp
+		(setq org-src-fontify-natively t
+			org-src-tab-acts-natively t
+			org-confirm-babel-evaluate nil
+			org-edit-src-content-indentation 0)
+	#+end_src
