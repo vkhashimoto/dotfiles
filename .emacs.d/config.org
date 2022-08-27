@@ -36,11 +36,11 @@
 (global-unset-key (kbd "C-z")) ; Disable Ctrl + z
 #+end_src
 
-** Custom keybindin
+** Custom keybinding
 #+begin_src emacs-lisp
 (setq find-map (make-sparse-keymap)) ; Create a keymap
-(define-key find-map "s" '("Search regex" . rg-project)) ; Add an entry to the keymap
-(define-key find-map "w" '("Search selected word" . rg-dwim-project-dir)) ; Add another entry to the same keymap
+(define-key find-map "s" '("Search regex" . projectile-ripgrep)) ; Add an entry to the keymap (old: rg-project)
+(define-key find-map "w" '("Search selected word" . rg-dwim-project-dir)) ; Add another entry to the same keymap 
 (setq prefix-find-map (make-sparse-keymap)) ; Create another keymap, to hold the prefix for a keymap
 (define-key prefix-find-map "f" (cons "Find prefix" find-map)) ; Add an entry to the prefix keymap
 (global-set-key (kbd "C-c") prefix-find-map) ; Use C-c as a key to the prefix keymap
@@ -108,6 +108,13 @@ You may need to run (M-x fira-code-mode-install-fonts RET)
 			org-confirm-babel-evaluate nil
 			org-edit-src-content-indentation 0)
 	#+end_src
+
+** Install projectile
+#+begin_src emacs-lisp
+(use-package projectile)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+#+end_src
 ** Utiltiies
 *** Install helm
     #+begin_src emacs-lisp
@@ -115,6 +122,6 @@ You may need to run (M-x fira-code-mode-install-fonts RET)
     #+end_src
 *** Install rg.el
     #+begin_src emacs-lisp
-	(use-package rg)
-(rg-enable-default-bindings)
+(use-package rg)
+;(rg-enable-default-bindings)
     #+end_src
