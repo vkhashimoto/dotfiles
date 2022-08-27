@@ -9,6 +9,7 @@
 (scroll-bar-mode -1)  ; This hides the scrollbar
 (tooltip-mode -1) ; This hides the tips when hovering the mouse
 (setq visible-bell t) ; Visual warning for invalid operation
+(set-frame-parameter nil 'undecorated t) ; Remove window manager decorations
 #+end_src
 
 ** Text editor settings
@@ -22,6 +23,16 @@
 
 #+begin_src emacs-lisp
 (global-unset-key (kbd "C-z")) ; Disable Ctrl + z
+#+end_src
+
+** Custom keybinding
+#+begin_src emacs-lisp
+(setq find-map (make-sparse-keymap)) ; Create a keymap
+(define-key find-map "s" '("Search regex" . rg-project)) ; Add an entry to the keymap
+(define-key find-map "w" '("Search selected word" . rg-dwim-project-dir)) ; Add another entry to the same keymap
+(setq prefix-find-map (make-sparse-keymap)) ; Create another keymap, to hold the prefix for a keymap
+(define-key prefix-find-map "f" (cons "Find prefix" find-map)) ; Add an entry to the prefix keymap
+(global-set-key (kbd "C-c") prefix-find-map) ; Use C-c as a key to the prefix keymap
 #+end_src
 * Packages
 ** Add MELPA to the package-archives
@@ -58,9 +69,11 @@ You may need to run (M-x fira-code-mode-install-fonts RET)
 
 ** install which-key
 
-#+begin_src emacs-lisp
-(use-package which-key)
-#+end_src
+	#+begin_src emacs-lisp
+	(use-package which-key)
+	(which-key-mode) ; Enable which-key to show the suggestions
+	(which-key-setup-side-window-bottom) ; Show the suggestion in the right side
+	#+end_src
 
 *** What is Org Mode?
 **** Org-tempo
@@ -84,3 +97,13 @@ You may need to run (M-x fira-code-mode-install-fonts RET)
 			org-confirm-babel-evaluate nil
 			org-edit-src-content-indentation 0)
 	#+end_src
+** Utiltiies
+*** Install helm
+    ;#+begin_src emacs-lisp
+    ;(use-package helm)
+    ;#+end_src
+*** Install rg.el
+    #+begin_src emacs-lisp
+	(use-package rg)
+(rg-enable-default-bindings)
+    #+end_src
