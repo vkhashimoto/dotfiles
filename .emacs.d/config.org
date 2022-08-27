@@ -2,6 +2,17 @@
 
 * Basic settings
 
+** Server Settings (Optional)
+   If your emacs is taking too long to open, you can run the emacs in server-client mode.
+   First, you have to run the emacs server (daemon mode):
+   #+begin_src sh
+	systemctl enable --user emacs.service
+   #+end_src
+   After restarting your computer, the daemon will start automatically.
+   Now, to open the emacs in client mode:
+   #+begin_src sh
+	emacsclient -c -a 'emacs' # this open a new window for emacs and if the server is not running, it will start the emacs in normal mode
+   #+end_src
 ** UI Settings
 #+begin_src emacs-lisp
 (tool-bar-mode -1) ; This hides the toolbar
@@ -9,7 +20,7 @@
 (scroll-bar-mode -1)  ; This hides the scrollbar
 (tooltip-mode -1) ; This hides the tips when hovering the mouse
 (setq visible-bell t) ; Visual warning for invalid operation
-(set-frame-parameter nil 'undecorated t) ; Remove window manager decorations
+(modify-all-frames-parameters '((undecorated t))) ; Remove window manager decorations for all frames
 #+end_src
 
 ** Text editor settings
