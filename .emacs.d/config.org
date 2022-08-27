@@ -14,8 +14,8 @@
 
 ** Text editor settings
 #+begin_src emacs-lisp
-(display-line-numbers-mode t) ;This shows the line number
-(setq display-line-numbers 'relative) ;Show relative line number
+(global-display-line-numbers-mode t) ;This shows the line number
+(menu-bar-display-line-numbers-mode 'relative) ; Show relative line number
 (global-hl-line-mode t) ;Highlight the current line
 (setq-default cursor-type 'hbar) ;Change the cursos to a horizontal bar
 (delete-selection-mode t) ; Delete selected text on typing
