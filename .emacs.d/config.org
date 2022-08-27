@@ -25,7 +25,7 @@
 (global-unset-key (kbd "C-z")) ; Disable Ctrl + z
 #+end_src
 
-** Custom keybinding
+** Custom keybindin
 #+begin_src emacs-lisp
 (setq find-map (make-sparse-keymap)) ; Create a keymap
 (define-key find-map "s" '("Search regex" . rg-project)) ; Add an entry to the keymap
@@ -99,9 +99,9 @@ You may need to run (M-x fira-code-mode-install-fonts RET)
 	#+end_src
 ** Utiltiies
 *** Install helm
-    ;#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
     ;(use-package helm)
-    ;#+end_src
+    #+end_src
 *** Install rg.el
     #+begin_src emacs-lisp
 	(use-package rg)
