@@ -41,6 +41,7 @@
 (setq magit-map (make-sparse-keymap)) ; Keymap for magit. TODO: Link to install magit session
 (setq user-prefix-map (make-sparse-keymap)) ; Keymap to put custom user prefixes
 (setq find-map (make-sparse-keymap)) ; Create a keymap for find commands
+(setq code-map (make-sparse-keymap)) ; Create a keymap for operation in source code
 
 (define-key find-map "s" '("Search regex" . projectile-ripgrep)) ; Add an entry to the keymap (old: rg-project)
 (define-key find-map "w" '("Search selected word" . rg-dwim-project-dir)) ; Add another entry to the same keymap 
@@ -86,11 +87,15 @@ You may need to run (M-x fira-code-mode-install-fonts RET)
 
 ** install which-key
 
-	#+begin_src emacs-lisp
-	(use-package which-key)
-	(which-key-mode) ; Enable which-key to show the suggestions
-	(which-key-setup-side-window-bottom) ; Show the suggestion in the right side
+   #+begin_src emacs-lisp
+   (use-package which-key
+     :config (progn
+	       (which-key-mode)
+	       (which-key-setup-side-window-bottom)
+	       ))
 (setq which-key-allow-imprecise-window-fit nil) ; Fix the popup not showing all the bindings when running emacsclient
+;(which-key-mode) ; Enable which-key to show the suggestions
+;(which-key-setup-side-window-bottom) ; Show the suggestion in the right side
 #+end_src
 
 *** What is Org Mode?
@@ -138,3 +143,22 @@ You may need to run (M-x fira-code-mode-install-fonts RET)
 (define-key user-prefix-map "g" (cons "Magit" magit-map)) ; Create magit prefix
 (define-key magit-map "s" '("Status" . magit-status)) ; Add status command
 #+end_src
+** Install Java LSP
+   #+begin_src emacs-lisp
+(use-package lsp-mode
+:hook ((lsp-mode . lsp-enable-which-key-integration)))
+(use-package dap-mode
+:after lsp-mode
+:config (dap-auto-configure-mode))
+   (use-package lsp-java
+     :config (add-Hook 'Java-Mode-Hook 'Lsp))
+(use-package dap-java
+:ensure nil)
+(setq lsp-java-format-settings-url "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
+(setq lsp-java-format-settings-profile "GoogleStyle")
+(setq c-basic-offset 2) ; Indentation size on Eclipse
+(setq tab-width 4) ; Tab size on Eclipse
+(setq indent-tabs-mode nil) ; nil for spaces, t for tabs
+(define-key user-prefix-map "c" (cons "Code" code-map))
+(define-key code-map "f" '("Format" . lsp-format-buffer))
+#+End_src
