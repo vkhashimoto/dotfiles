@@ -125,3 +125,7 @@ You may need to run (M-x fira-code-mode-install-fonts RET)
 (use-package rg)
 ;(rg-enable-default-bindings)
     #+end_src
+** Install magit
+#+begin_src emacs-lisp
+(use-package magit)
+#+end_src
