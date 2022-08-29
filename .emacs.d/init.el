@@ -1,3 +1,7 @@
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((java . t)))
+
 (org-babel-load-file
  (expand-file-name
   "config.org"
