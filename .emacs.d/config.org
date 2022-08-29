@@ -146,13 +146,14 @@ You may need to run (M-x fira-code-mode-install-fonts RET)
    #+begin_src emacs-lisp
 (use-package lsp-mode
 :hook ((lsp-mode . lsp-enable-which-key-integration)))
+(use-package lsp-java
+:hook (java-mode . lsp))
 (use-package dap-mode
 :after lsp-mode
 :config (dap-auto-configure-mode))
-(use-package lsp-java
-:hook (java-mode . lsp))
 (use-package dap-java
 :ensure nil)
+(lsp-install-server nil 'jdtls) ; TODO To download the server, the package isn't downloading automatically.
 (setq lsp-java-format-settings-url "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
 (setq lsp-java-format-settings-profile "GoogleStyle")
 (setq c-basic-offset 2) ; Indentation size on Eclipse
