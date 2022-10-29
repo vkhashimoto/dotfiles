@@ -123,3 +123,6 @@ super + {Left,Down,Up,Right}
 # custom
 ctrl + alt + l
 	i3lock
+
+super +r
+	rofi -show combi -combi-modes "window,run" -modes combi
