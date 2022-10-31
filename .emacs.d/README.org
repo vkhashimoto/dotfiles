@@ -26,6 +26,9 @@ The ~-c~ open the file in a new frame.
 
 The ~-a~ start a new instance of emacs if none is running.
 
+* What is this file?
+This is an Org-mode (https://orgmode.org/) file documenting my Emacs configuration.
+To generate the ~init.el~ file, just open this file with Emacs and run (~M-x~) ~org-babel-tangle~
 * Configuring Emacs
 ** UI Config
 #+BEGIN_SRC emacs-lisp :tangle init.el
