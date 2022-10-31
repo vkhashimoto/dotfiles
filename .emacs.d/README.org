@@ -1,0 +1,83 @@
+#+title: Emacs Config
+#+author: vkhashimoto
+#+date: 2022-10-29
+
+* Installing Emacs
+To install emacs on Arch Linux, you just need to run:
+
+#+BEGIN_SRC bash
+pacman -S emacs
+#+END_SRC
+  
+** Configuring client-server mode
+
+To enable the server
+#+BEGIN_SRC bash
+systemctl enable --user emacs.service
+systemctl start --user emacs.service
+#+END_SRC
+
+And to start the client
+#+BEGIN_SRC bash
+emacsclient -c -a emacs
+#+END_SRC
+
+The ~-c~ open the file in a new frame.
+
+The ~-a~ start a new instance of emacs if none is running.
+
+* Configuring Emacs
+** UI Config
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (tool-bar-mode -1) ; This hides the toolbar
+  (menu-bar-mode -1) ; This hides the menu
+  (scroll-bar-mode -1) ; This hides the scrollbar
+  (tooltip-mode -1) ; This hides the tips when hovering the mouse
+  (setq visible-bel t) ; Visual warning for invalid operations
+  (modify-all-frames-parameters '((undecorated t))) ; Remove window manager decorations for all frames
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; Open emacs maximized
+  (setq frame-resize-pixelwise t)
+#+END_SRC
+** Text editor settings
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (global-display-line-numbers-mode t) ; This shows the line number
+  (menu-bar-display-line-numbers-mode 'relative) ; Show relative line number
+  (global-hl-line-mode t) ; Highlight the current line
+  (setq-default cursor-type 'hbar) ; change the cursor to a horinzontal bar
+  (delete-selection-mode t) ; Delete selected text on typing
+#+END_SRC
+
+** Keybindings
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(global-unset-key (kbd "C-z")) ; Disable Ctrl + z (suspension)
+#+END_SRC
+* Configuring packages
+** Repositories
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/"))
+  (package-refresh-contents)
+  (package-initialize)
+#+END_SRC
+** use-package
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+#+END_SRC
+** catppuccin theme (https://github.com/catppuccin/emacs)
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package autothemer
+    :ensure t)
+  (load-theme 'catppuccin-mocha t)
+#+END_SRC
+** which-key
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package which-key
+    :config (progn
+	      (which-key-mode)
+	      (which-key-setup-side-window-bottom)))
+  (setq which-key-allow-imprecise-window-fit nil) ; Fix the popup not showing all the bindings when running emacsclient
+#+END_SRC
