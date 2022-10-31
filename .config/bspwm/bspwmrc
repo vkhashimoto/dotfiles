@@ -6,6 +6,10 @@ sxhkd &
 #. "${HOME}/.cache/wal/colors.sh"
 #
 #bspc monitor -d I II III IV V VI VII VIII IX X
+bspc monitor DP-1 -d I II III IV
+bspc monitor HDMI-1 -d V VI VII VIII
+
+
 #
 #bspc config border_width         2
 #bspc config window_gap          12
@@ -35,3 +39,7 @@ sxhkd &
 # rules
 bspc rule -a Emacs state=tiled
 bspc rule -a emacs state=tiled
+
+
+# wallpaper
+nitrogen --restore &
