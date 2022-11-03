@@ -78,9 +78,12 @@ To generate the ~init.el~ file, just open this file with Emacs and run (~M-x~) ~
     (exec-path-from-shell-initialize))
 #+END_SRC
 ** catppuccin theme (https://github.com/catppuccin/emacs)
+
+To work with the daemon, I had to change the theme directory
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package autothemer
     :ensure t)
+  (setq custom-theme-directory "~/.emacs.d/themes")
   (load-theme 'catppuccin-mocha t)
 #+END_SRC
 ** which-key
