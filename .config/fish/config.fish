@@ -7,7 +7,6 @@ set -g VISUAL "emacsclient -c -a emacs"
 if status is-interactive
    # Commands to run in interactive sessions can go here
    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-      /usr/bin/emacs --fg-daemon --eval '(load-file "~/.emacs.d/init.el")'
       exec startx
    end
 
