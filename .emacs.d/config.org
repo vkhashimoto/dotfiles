@@ -143,9 +143,9 @@ Expansion in org mode
 
 *** TypeScript
 #+begin_src emacs-lisp
-(lsp-install-server :id 'ts-ls)
-
 (use-package typescript-mode
+  :init
+  (lambda () (lsp-install-server 'ts-ls))
   :mode "\\.ts\\'"
   :hook (typescript-mode . lsp-deferred)
   :config
