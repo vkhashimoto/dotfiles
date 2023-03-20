@@ -1,0 +1,153 @@
+* Basic Settings
+
+** Client/Server usage
+
+** UI Settings
+#+begin_src emacs-lisp
+  (tool-bar-mode -1); This hides the toolbar
+  (menu-bar-mode -1) ; This hides the menu
+  (scroll-bar-mode -1) ; This hides the scrollbar
+  (tooltip-mode -1) ; This hides the tips when hovering the mouse
+  (setq visible-bell t) ; Visual warning for invalid operations
+  (modify-all-frames-parameters '((undecorated t))) ; Remove window manager decorations for all frames
+  (add-to-list 'default-frame-alist '(fullscreen .maximized)) ; Open emacs maximized
+#+end_src
+
+** Text editor settings
+#+begin_src emacs-lisp
+  (global-display-line-numbers-mode t) ; This shows the line number
+  (menu-bar-display-line-numbers-mode 'relative) ; Show relative line number
+  (global-hl-line-mode t) ; Highlight the current line
+  (setq-default cursor-type 'hbar) ; Change the cursor to a horizontal bar
+  (delete-selection-mode t) ; Delete selected text on typing
+  (global-unset-key (kbd "C-z")) ; disable Ctrl + z
+#+end_src
+
+
+* Packages
+
+** straight.el
+#+begin_src emacs-lisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+#+end_src
+
+** use catppuccin theme (https://github.com/catppuccin/emacs)
+#+begin_src emacs-lisp
+(straight-use-package 'catppuccin-theme)
+(load-theme 'catppuccin t)
+(setq catppuccin-flavor 'macchiato)
+#+end_src
+
+** use font
+To download the font: https://www.jetbrains.com/lp/mono/
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil
+    :family "JetBrains Mono"
+    :height 110) 
+(straight-use-package 'ligature)
+(ligature-set-ligatures 't '("->" "!=" "=="))
+(global-ligature-mode 't)
+#+end_src
+
+** which-key
+#+begin_src emacs-lisp
+(straight-use-package 'which-key)
+(progn
+  (which-key-mode) ; Enable which-key to show the suggestions
+  (which-key-setup-side-window-bottom)) ; Show the suggestion in the bottom
+
+(setq which-key-allow-imprecise-window-fit nil) ; Fix the popup not showing all the bindings in emacsclient
+#+end_src
+
+
+* Org Mode
+
+** org-tempo
+
+Expansion in org mode
+
+#+begin_src emacs-lisp
+(require 'org-tempo)
+#+end_src
+
+** Enable code syntax highlight
+#+begin_src emacs-lisp
+(setq org-src-fontify-natively t
+      org_src-tab-acts-natively t
+      org-confirm-babel-evaluate nil
+      org-edit-src-content-indentation 0)
+#+end_src
+
+* Development
+
+** path
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+#+end_src
+
+** Languages
+
+*** LSP
+#+begin_src emacs-lisp
+
+;; Breadcrumb for every file
+(defun efs/lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . efs/lsp-mode-setup)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+;; better auto-complete
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode))
+
+;; lsp-ui
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :config
+  (setq lsp-ui-doc-position 'bottom)
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-sideline-show-hover nil)
+  (setq lsp-ui-doc-show-with-cursor t)
+  (setq lsp-ui-doc-show-with-mouse nil)
+  (lsp-ui-doc-show))
+
+;; Quick symbol search
+(use-package lsp-ivy)
+#+end_src
+
+*** TypeScript
+#+begin_src emacs-lisp
+(lsp-install-server :id 'ts-ls)
+
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+#+end_src
