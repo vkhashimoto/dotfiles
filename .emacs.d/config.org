@@ -151,3 +151,42 @@ Expansion in org mode
   :config
   (setq typescript-indent-level 2))
 #+end_src
+
+*** Rust
+
+#+begin_src emacs-lisp
+(defun cargo-run-i ()
+  "Running rust"
+  (interactive)
+  (cargo-process-run)
+  (let (
+	(orig-win (selected-window))
+	(run-win (display-buffer (get-buffer "*Cargo Run*") nil 'visible))
+	)
+  (select-window run-win)
+  (end-of-buffer)
+  (comint-mode)
+  (read-only-mode 0)
+  (let (input)
+    (setq input (read-string "O que deseja executar? "))
+    (comint-send-string "*Cargo Run*" (format "%s\n" input)))
+  (select-window orig-win)
+))
+
+
+(with-eval-after-load 'rust-mode
+  (define-key rust-mode-map (kbd "C-c C-c r") 'cargo-run-i))
+
+(use-package rust-mode
+:hook (rust-mode . lsp)
+:config
+(setq rust-format-on-save t))
+
+
+(use-package cargo
+:hook (rust-mode . cargo-minor-mode)
+:diminish cargo-minor-mode)
+
+(use-package flycheck-rust
+:config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+#+end_src
