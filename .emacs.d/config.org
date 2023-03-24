@@ -103,6 +103,21 @@ Expansion in org mode
   (exec-path-from-shell-initialize))
 #+end_src
 
+** keychain-environment
+
+#+begin_src emacs-lisp
+(straight-use-package
+ '(keychain-environment :type git :host github :repo "vkhashimoto/keychain-environment"))
+
+#+end_src
+
+** magit
+
+#+begin_src emacs-lisp
+(use-package magit)
+
+#+end_src
+
 ** Languages
 
 *** LSP
@@ -193,9 +208,6 @@ Expansion in org mode
 (use-package flycheck-rust
 :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 #+end_src
-
-#+RESULTS:
-: t
 
 *** Vue
 #+begin_src emacs-lisp
