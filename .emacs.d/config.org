@@ -159,19 +159,22 @@ Expansion in org mode
   "Running rust"
   (interactive)
   (cargo-process-run)
-  (let (
-	(orig-win (selected-window))
-	(run-win (display-buffer (get-buffer "*Cargo Run*") nil 'visible))
-	)
-  (select-window run-win)
-  (end-of-buffer)
-  (comint-mode)
-  (read-only-mode 0)
-  (let (input)
-    (setq input (read-string "O que deseja executar? "))
-    (comint-send-string "*Cargo Run*" (format "%s\n" input)))
-  (select-window orig-win)
-))
+  (let (input rust-window-name)
+    (setq input (read-string "What command do you want to run? "))
+    (setq rust-window-name "*Cargo Run*")
+    (let (
+	  (orig-win (selected-window))
+	  (run-win (display-buffer (get-buffer rust-window-name) nil 'visible))
+	  )
+      (select-window run-win)
+      (end-of-buffer)
+      (comint-mode)
+      (read-only-mode 0)
+      (message "Enviando input")
+      (comint-send-string rust-window-name (format "%s\n" input))
+      (select-window orig-win)
+      ))
+)
 
 
 (with-eval-after-load 'rust-mode
@@ -189,4 +192,27 @@ Expansion in org mode
 
 (use-package flycheck-rust
 :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+#+end_src
+
+#+RESULTS:
+: t
+
+*** Vue
+#+begin_src emacs-lisp
+
+(use-package vue-mode
+  :init
+  (lambda () (lsp-install-server 'vue-semantic-server))
+  :mode "\\.vue\\'"
+;  :hook (typescript-mode . lsp-deferred)
+  :config
+  (add-hook 'vue-mode-hook #'lsp))
+
+(use-package lsp-tailwindcss
+  :init
+  (lambda () (lsp-install-server 'tailwindcss))
+  (setq lsp-tailwindcss-add-on-mode t)
+  :config
+  (setq lsp-tailwindcss-major-modes '(typescript-mode vue-mode)))
+
 #+end_src
