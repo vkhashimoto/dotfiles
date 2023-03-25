@@ -3,5 +3,7 @@ import:
   #- ~/.config/alacritty/catppuccin/catppuccin-macchiato.yml
   #- ~/.config/alacritty/catppuccin/catppuccin-frappe.yml
   #- ~/.config/alacritty/catppuccin/catppuccin-latte.yml
+window:
+  decorations: none
 shell:
   program: /bin/fish
