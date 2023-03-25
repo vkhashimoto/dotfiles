@@ -10,7 +10,7 @@
   (tooltip-mode -1) ; This hides the tips when hovering the mouse
   (setq visible-bell t) ; Visual warning for invalid operations
   (modify-all-frames-parameters '((undecorated t))) ; Remove window manager decorations for all frames
-  (add-to-list 'default-frame-alist '(fullscreen .maximized)) ; Open emacs maximized
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; Open emacs maximized
 #+end_src
 
 ** Text editor settings
@@ -21,6 +21,8 @@
   (setq-default cursor-type 'hbar) ; Change the cursor to a horizontal bar
   (delete-selection-mode t) ; Delete selected text on typing
   (global-unset-key (kbd "C-z")) ; disable Ctrl + z
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
 #+end_src
 
 
