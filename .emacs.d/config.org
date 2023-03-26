@@ -180,7 +180,8 @@ Expansion in org mode
   :mode "\\.ts\\'"
   :hook (typescript-mode . lsp-deferred)
   :config
-  (setq typescript-indent-level 2))
+  (setq typescript-indent-level 2)
+(define-key typescript-mode-map (kbd "C-c f") 'vk/eslint-fix-file))
 
 ;; https://github.com/typescript-language-server/typescript-language-server/issues/559
 
@@ -199,7 +200,6 @@ Expansion in org mode
                   (replace-match "" nil t)))
 		(apply oldfn args)))
 
-(define-key typescript-mode-map (kbd "C-c f") 'vk/eslint-fix-file)
 
 ;; https://gist.github.com/ustun/73321bfcb01a8657e5b8
 
@@ -266,8 +266,8 @@ Expansion in org mode
   :mode "\\.vue\\'"
 :hook (typescript-mode . lsp-deferred)
   :config
-  (add-hook 'vue-mode-hook #'lsp))
-
+  (add-hook 'vue-mode-hook #'lsp)
+  (define-key vue-mode-map (kbd "C-c f") 'vk/eslint-fix-file))
 (use-package lsp-tailwindcss
   :init
   (lambda () (lsp-install-server 'tailwindcss))
@@ -275,6 +275,5 @@ Expansion in org mode
   :config
   (setq lsp-tailwindcss-major-modes '(typescript-mode vue-mode)))
 
-(define-key vue-mode-map (kbd "C-c f") 'vk/eslint-fix-file)
 
 #+end_src
