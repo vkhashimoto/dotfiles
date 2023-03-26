@@ -113,6 +113,18 @@ Expansion in org mode
 
 #+end_src
 
+** projectile
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :init
+  (projectile-mode +1)
+  :bind (;map projectile-mode-map
+	 ("C-c p" . projectile-command-map)))
+
+#+end_src
+
+
 ** magit
 
 #+begin_src emacs-lisp
@@ -125,6 +137,7 @@ Expansion in org mode
 *** LSP
 #+begin_src emacs-lisp
 
+;;TODO: Automatic install all lsp dependencies (servers)
 ;; Breadcrumb for every file
 (defun efs/lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
@@ -163,6 +176,7 @@ Expansion in org mode
 (use-package typescript-mode
   :init
   (lambda () (lsp-install-server 'ts-ls))
+(lambda () (lsp-install-server eslint))
   :mode "\\.ts\\'"
   :hook (typescript-mode . lsp-deferred)
   :config
@@ -185,11 +199,12 @@ Expansion in org mode
                   (replace-match "" nil t)))
 		(apply oldfn args)))
 
+(define-key typescript-mode-map (kbd "C-c f") 'vk/eslint-fix-file)
 
 ;; https://gist.github.com/ustun/73321bfcb01a8657e5b8
 
 ;; https://gist.github.com/ustun/73321bfcb01a8657e5b8?permalink_comment_id=3238790#gistcomment-3238790
-(defun eslint-fix-file ()
+(defun vk/eslint-fix-file ()
   (interactive)
   (message "eslint --fix the file" (buffer-file-name))
   (call-process-shell-command
@@ -246,10 +261,10 @@ Expansion in org mode
 (use-package vue-mode
   :straight (vue-mode :type git :host github :repo "AdamNiederer/vue-mode"
 		      :fork (:host github :repo "vkhashimoto/vue-mode"))
-  :init
-  (lambda () (lsp-install-server 'vue-semantic-server))
+;  :init
+;  (lambda () (lsp-install-server 'vue-semantic-server))
   :mode "\\.vue\\'"
-;  :hook (typescript-mode . lsp-deferred)
+:hook (typescript-mode . lsp-deferred)
   :config
   (add-hook 'vue-mode-hook #'lsp))
 
@@ -259,5 +274,7 @@ Expansion in org mode
   (setq lsp-tailwindcss-add-on-mode t)
   :config
   (setq lsp-tailwindcss-major-modes '(typescript-mode vue-mode)))
+
+(define-key vue-mode-map (kbd "C-c f") 'vk/eslint-fix-file)
 
 #+end_src
