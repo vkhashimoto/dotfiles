@@ -11,6 +11,7 @@
   (setq visible-bell t) ; Visual warning for invalid operations
   (modify-all-frames-parameters '((undecorated t))) ; Remove window manager decorations for all frames
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; Open emacs maximized
+(setq inhibit-startup-screen t) ; Don't show welcome screen
 #+end_src
 
 ** Text editor settings
