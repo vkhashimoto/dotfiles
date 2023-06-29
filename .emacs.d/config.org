@@ -227,13 +227,15 @@ Expansion in org mode
 #+begin_src emacs-lisp
 (use-package typescript-mode
   :init
-  (lambda () (lsp-install-server 'ts-ls))
-(lambda () (lsp-install-server eslint))
+  (progn
+    (lsp-ensure-server 'ts-ls)
+    (lsp-ensure-server 'eslint))
   :mode "\\.ts\\'"
   :hook (typescript-mode . lsp-deferred)
   :config
   (setq typescript-indent-level 2)
 (define-key typescript-mode-map (kbd "C-c f") 'vk/eslint-fix-file))
+
 
 ;; https://github.com/typescript-language-server/typescript-language-server/issues/559
 
@@ -373,5 +375,21 @@ Expansion in org mode
   :bind
   (:map haskell-mode-map
 	("C-c r" . ormolu-format-buffer)))
+
+#+end_src
+
+*** Elixir
+
+#+begin_src emacs-lisp
+(setq lsp-elixir-ls-version "v0.15.1"); New version released 2023-06-29
+(setq lsp-elixir-ls-download-url
+  (format "https://github.com/elixir-lsp/elixir-ls/releases/download/%s/elixir-ls-%s.zip"
+          lsp-elixir-ls-version lsp-elixir-ls-version)); The default artifact name is not available
+
+(use-package elixir-mode :ensure t
+  :init
+  (lsp-ensure-server 'elixir-ls)
+  :hook (elixir-mode . lsp-deferred))
+
 
 #+end_src
