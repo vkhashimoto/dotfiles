@@ -1,0 +1,395 @@
+* Basic Settings
+
+** Client/Server usage
+
+** UI Settings
+#+begin_src emacs-lisp
+  (tool-bar-mode -1); This hides the toolbar
+  (menu-bar-mode -1) ; This hides the menu
+  (scroll-bar-mode -1) ; This hides the scrollbar
+  (tooltip-mode -1) ; This hides the tips when hovering the mouse
+  (setq visible-bell t) ; Visual warning for invalid operations
+  (modify-all-frames-parameters '((undecorated t))) ; Remove window manager decorations for all frames
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; Open emacs maximized
+(setq inhibit-startup-screen t) ; Don't show welcome screen
+#+end_src
+
+** Text editor settings
+#+begin_src emacs-lisp
+  (global-display-line-numbers-mode t) ; This shows the line number
+  (menu-bar-display-line-numbers-mode 'relative) ; Show relative line number
+  (global-hl-line-mode t) ; Highlight the current line
+  (setq-default cursor-type 'hbar) ; Change the cursor to a horizontal bar
+  (delete-selection-mode t) ; Delete selected text on typing
+  (global-unset-key (kbd "C-z")) ; disable Ctrl + z
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
+#+end_src
+
+
+* Packages
+
+** dired
+
+Use other dired as target
+#+begin_src emacs-lisp
+(setq dired-dwim-target t)
+
+#+end_src
+
+
+
+** straight.el
+#+begin_src emacs-lisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+#+end_src
+
+** vterm
+
+- cmake
+- libtool
+- libtool-bin    
+#+begin_src emacs-lisp
+(use-package vterm)
+
+#+end_src
+
+** consult
+#+begin_src emacs-lisp
+
+(setq lexical-binding t)
+
+(use-package consult)
+
+#+end_src
+
+** vertico
+
+#+begin_src emacs-lisp
+
+(use-package vertico
+  :straight (vertico
+	     :files (:defaults "extensions/*")
+	     :includes (vertico-unobtrusive))
+  :init
+  (vertico-mode))
+
+#+end_src
+
+** savehist
+
+#+begin_src emacs-lisp
+(use-package savehist
+  :init
+  (savehist-mode))
+
+#+end_src
+
+** use catppuccin theme (https://github.com/catppuccin/emacs)
+#+begin_src emacs-lisp
+(straight-use-package 'catppuccin-theme)
+(load-theme 'catppuccin t)
+(setq catppuccin-flavor 'macchiato)
+#+end_src
+
+** use font
+To download the font: https://www.jetbrains.com/lp/mono/
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil
+    :family "JetBrains Mono"
+    :height 110) 
+(straight-use-package 'ligature)
+(ligature-set-ligatures 't '("->" "!=" "=="))
+(global-ligature-mode 't)
+#+end_src
+
+** which-key
+#+begin_src emacs-lisp
+(straight-use-package 'which-key)
+(progn
+  (which-key-mode) ; Enable which-key to show the suggestions
+  (which-key-setup-side-window-bottom)) ; Show the suggestion in the bottom
+
+(setq which-key-allow-imprecise-window-fit nil) ; Fix the popup not showing all the bindings in emacsclient
+#+end_src
+
+
+* Org Mode
+
+** org-tempo
+
+Expansion in org mode
+
+#+begin_src emacs-lisp
+(require 'org-tempo)
+#+end_src
+
+** Enable code syntax highlight
+#+begin_src emacs-lisp
+(setq org-src-fontify-natively t
+      org_src-tab-acts-natively t
+      org-confirm-babel-evaluate nil
+      org-edit-src-content-indentation 0)
+#+end_src
+
+* Development
+
+** path
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+#+end_src
+
+** keychain-environment
+
+#+begin_src emacs-lisp
+(straight-use-package
+ '(keychain-environment :type git :host github :repo "vkhashimoto/keychain-environment"))
+
+#+end_src
+
+** projectile
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :init
+  (projectile-mode +1)
+  :bind (;map projectile-mode-map
+	 ("C-c p" . projectile-command-map)))
+
+#+end_src
+
+
+** magit
+
+#+begin_src emacs-lisp
+(use-package magit)
+
+#+end_src
+
+** Languages
+
+*** LSP
+#+begin_src emacs-lisp
+
+;;TODO: Automatic install all lsp dependencies (servers)
+;; Breadcrumb for every file
+(defun efs/lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . efs/lsp-mode-setup)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+;; better auto-complete
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode))
+
+;; lsp-ui
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :config
+  (setq lsp-ui-doc-position 'bottom)
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-sideline-show-hover nil)
+  (setq lsp-ui-doc-show-with-cursor t)
+  (setq lsp-ui-doc-show-with-mouse nil)
+  (lsp-ui-doc-show))
+
+;; Quick symbol search
+(use-package lsp-ivy)
+#+end_src
+
+*** TypeScript
+#+begin_src emacs-lisp
+(use-package typescript-mode
+  :init
+  (progn
+    (lsp-ensure-server 'ts-ls)
+    (lsp-ensure-server 'eslint))
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2)
+(define-key typescript-mode-map (kbd "C-c f") 'vk/eslint-fix-file))
+
+
+;; https://github.com/typescript-language-server/typescript-language-server/issues/559
+
+;; https://github.com/typescript-language-server/typescript-language-server/issues/559#issuecomment-1259470791
+;; same definition as mentioned earlier
+(advice-add 'json-parse-string :around
+            (lambda (orig string &rest rest)
+              (apply orig (s-replace "\\u0000" "" string)
+                     rest)))
+
+;; minor changes: saves excursion and uses search-forward instead of re-search-forward
+(advice-add 'json-parse-buffer :around
+            (lambda (oldfn &rest args)
+	      (save-excursion 
+                (while (search-forward "\\u0000" nil t)
+                  (replace-match "" nil t)))
+		(apply oldfn args)))
+
+
+;; https://gist.github.com/ustun/73321bfcb01a8657e5b8
+
+;; https://gist.github.com/ustun/73321bfcb01a8657e5b8?permalink_comment_id=3238790#gistcomment-3238790
+(defun vk/eslint-fix-file ()
+  (interactive)
+  (message "eslint --fix the file" (buffer-file-name))
+  (call-process-shell-command
+   (concat "npx eslint --fix " (buffer-file-name))
+   nil "*Shell Command Output*" t)
+  (revert-buffer t t))
+#+end_src
+
+*** Rust
+
+#+begin_src emacs-lisp
+(defun cargo-run-i ()
+  "Running rust"
+  (interactive)
+  (cargo-process-run)
+  (let (input rust-window-name)
+    (setq input (read-string "What command do you want to run? "))
+    (setq rust-window-name "*Cargo Run*")
+    (let (
+	  (orig-win (selected-window))
+	  (run-win (display-buffer (get-buffer rust-window-name) nil 'visible))
+	  )
+      (select-window run-win)
+      (end-of-buffer)
+      (comint-mode)
+      (read-only-mode 0)
+      (message "Enviando input")
+      (comint-send-string rust-window-name (format "%s\n" input))
+      (select-window orig-win)
+      ))
+)
+
+
+(with-eval-after-load 'rust-mode
+  (define-key rust-mode-map (kbd "C-c C-c r") 'cargo-run-i))
+
+(use-package rust-mode
+:hook (rust-mode . lsp)
+:config
+(setq rust-format-on-save t))
+
+
+(use-package cargo
+:hook (rust-mode . cargo-minor-mode)
+:diminish cargo-minor-mode)
+
+(use-package flycheck-rust
+:config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+#+end_src
+
+*** Vue
+#+begin_src emacs-lisp
+
+(use-package vue-mode
+  :straight (vue-mode :type git :host github :repo "AdamNiederer/vue-mode"
+		      :fork (:host github :repo "vkhashimoto/vue-mode"))
+;  :init
+;  (lambda () (lsp-install-server 'vue-semantic-server))
+  :mode "\\.vue\\'"
+:hook (typescript-mode . lsp-deferred)
+  :config
+  (add-hook 'vue-mode-hook #'lsp)
+  (define-key vue-mode-map (kbd "C-c f") 'vk/eslint-fix-file))
+(use-package lsp-tailwindcss
+  :init
+  (lambda () (lsp-install-server 'tailwindcss))
+  (setq lsp-tailwindcss-add-on-mode t)
+  :config
+  (setq lsp-tailwindcss-major-modes '(typescript-mode vue-mode)))
+
+
+#+end_src
+
+*** Java
+
+#+begin_src emacs-lisp
+
+(use-package lsp-java
+  :config
+  (add-hook 'java-mode-hook 'lsp))
+
+(use-package dap-mode
+  :after lsp-mode
+  :config
+  (dap-auto-configure-mode))
+
+(use-package dap-java
+  :straight nil)
+
+#+end_src
+
+*** Haskell
+
+- asdf
+- cabal install ormolu
+
+#+begin_src emacs-lisp
+(use-package haskell-mode
+  :ensure t
+:init
+(progn
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  (setq haskell-stylish-on-save 't)
+  ))
+(use-package lsp-haskell)
+
+(add-hook 'haskell-mode-hook #'lsp)
+(add-hook 'haskel-literate-mode-hook #'lsp)
+
+(use-package ormolu
+  :hook (haskell-mode . ormolu-format-on-save-mode)
+  :bind
+  (:map haskell-mode-map
+	("C-c r" . ormolu-format-buffer)))
+
+#+end_src
+
+*** Elixir
+
+#+begin_src emacs-lisp
+(setq lsp-elixir-ls-version "v0.15.1"); New version released 2023-06-29
+(setq lsp-elixir-ls-download-url
+  (format "https://github.com/elixir-lsp/elixir-ls/releases/download/%s/elixir-ls-%s.zip"
+          lsp-elixir-ls-version lsp-elixir-ls-version)); The default artifact name is not available
+
+(use-package elixir-mode :ensure t
+  :init
+  (lsp-ensure-server 'elixir-ls)
+  :hook (elixir-mode . lsp-deferred))
+
+
+#+end_src
