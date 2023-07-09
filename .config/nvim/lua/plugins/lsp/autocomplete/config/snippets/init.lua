@@ -1,3 +1,9 @@
+-- TODO: Create an utils file to create a notification
+vim.notify("Loading snippets", vim.log.levels.INFO, {
+	title = "Snippets",
+	render = "compact"
+})
+
 local pmap = require("core.keymap.utils").pmap
 local map = require("core.keymap.utils").map
 local ls = require("luasnip")
