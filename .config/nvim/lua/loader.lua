@@ -15,6 +15,6 @@ require("lazy").setup {
 	spec = {
 		{ import = "plugins.ui" },
 		{ import = "plugins.lsp" },
-		--import = "plugins.telescope"
+		{ import = "plugins.telescope" },
 	}
 }
