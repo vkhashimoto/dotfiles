@@ -1,5 +1,15 @@
 -- TODO: Check if lspconfig and lua_ls are installed
+
+local lspconfig = require("lspconfig")
+local lsp_defaults = lspconfig.util.default_config
+
+local capabilities = vim.tbl_deep_extend(
+	"force",
+	lsp_defaults.capabilities,
+	require("cmp_nvim_lsp").default_capabilities()
+)
 require'lspconfig'.lua_ls.setup {
+  capabilities = capabilities,
   settings = {
     Lua = {
       runtime = {
