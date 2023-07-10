@@ -10,5 +10,11 @@ return {
 		config = function()
 			require("plugins.utils.config.indent-blankline")
 		end,
-	}
+	},
+	{
+		"ThePrimeagen/harpoon",
+		config = function()
+			require("plugins.utils.config.harpoon")
+		end,
+	},
 }
