@@ -9,10 +9,11 @@ return {
 			"hrsh7th/cmp-cmdline",
 			{
 				"L3MON4D3/LuaSnip",
-				config = function() 
+				config = function()
 					require("plugins.lsp.autocomplete.config.snippets")
 				end,
 			},
+			"saadparwaiz1/cmp_luasnip",
 		},
 		config = function()
 			require("plugins.lsp.autocomplete.config")
