@@ -9,6 +9,7 @@ require("catppuccin").setup {
 				CursorLineNr = { fg = frappe.red, underline = true },
 				LineNrAbove = { fg = frappe.lavender },
 				LineNrBelow = { fg = frappe.teal },
+				IndentBlanklineSpaceChar = { underline = true, fg = macchiato.base },
 			}
 		end,
 
