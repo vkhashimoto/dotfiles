@@ -58,9 +58,24 @@ lspconfig.jdtls.setup {
 vim.cmd "LspStart"
 
 local config = {
+	settings = {
+		java = {
+			format = {
+				settings = {
+					url = "<FORMATTER_FILE_PATH>"
+				}
+			}
+		}
+	},
 	cmd = { "jdtls" },
 	root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw"}, { upward = true })[1]),
 }
+
+if config["settings"]["java"]["format"]["settings"]["url"] == "<FORMATTER_FILE_PATH>" then
+	vim.notify("Java formatter file not set", vim.log.levels.WARN, {
+		title = "Java DE"
+	})
+end
 
 
 require("jdtls").start_or_attach(config)
