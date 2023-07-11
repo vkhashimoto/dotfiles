@@ -114,6 +114,15 @@ if error then
 	return
 end
 
+
 require("jdtls").start_or_attach(config)
+
+--TODO: Use config.on_attach
+local pmap = require("core.keymap.utils").pmap
+pmap("n", "<leader>wa", function() 
+	local new_folder = vim.fn.input("Add new folder to workspace: ") 
+	require("core.util").load_workspace(new_folder)
+end, {})
+
 
 
