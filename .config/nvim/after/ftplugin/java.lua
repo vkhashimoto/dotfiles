@@ -124,5 +124,7 @@ pmap("n", "<leader>wa", function()
 	require("core.util").load_workspace(new_folder)
 end, {})
 
+pmap("n", "<leader>df", vim.lsp.buf.format, {})
+
 
 

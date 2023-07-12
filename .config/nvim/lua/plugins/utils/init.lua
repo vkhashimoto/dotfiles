@@ -17,4 +17,7 @@ return {
 			require("plugins.utils.config.harpoon")
 		end,
 	},
+	{
+		"ThePrimeagen/vim-be-good"
+	},
 }
