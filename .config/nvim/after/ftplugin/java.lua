@@ -130,5 +130,8 @@ pmap("n", "<leader>dd", vim.lsp.buf.definition, {})
 pmap("n", "<leader>dr", vim.lsp.buf.references, {})
 
 
+-- Formatting settings
+vim.bo.tabstop = 4
+vim.bo.shiftwidth = 4
 
 
