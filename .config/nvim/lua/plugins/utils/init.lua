@@ -20,4 +20,9 @@ return {
 	{
 		"ThePrimeagen/vim-be-good"
 	},
+	{
+		"NeogitOrg/neogit",
+		dependencies = "nvim-lua/plenary.nvim",
+		config = true
+	}
 }

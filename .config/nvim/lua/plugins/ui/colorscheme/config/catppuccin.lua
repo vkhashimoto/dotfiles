@@ -1,5 +1,8 @@
 local frappe = require("catppuccin.palettes").get_palette "frappe"
 require("catppuccin").setup {
+	integrations = {
+		neogit = true
+	},
 	flavour = "macchiato",
 	highlight_overrides = {
 		macchiato = function(macchiato)
