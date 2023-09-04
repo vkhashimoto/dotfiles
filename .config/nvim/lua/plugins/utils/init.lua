@@ -26,5 +26,11 @@ return {
 		config = function()
 			require("plugins.utils.config.neogit")
 		end
+	},
+	{
+		"vim-test/vim-test"
+	},
+	{
+		"tpope/vim-dispatch"
 	}
 }
