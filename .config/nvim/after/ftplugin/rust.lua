@@ -9,6 +9,13 @@ local capabilities = vim.tbl_deep_extend(
 )
 
 lspconfig.rust_analyzer.setup{
+	settings = {
+		["rust-analyzer"] = {
+			diagnostics = {
+				enable = true
+			}
+		}
+	},
 	capabilities = capabilities,
 	cmd = { "rustup", "run", "stable", "rust-analyzer" }
 }
