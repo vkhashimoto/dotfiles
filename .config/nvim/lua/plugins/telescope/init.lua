@@ -4,6 +4,7 @@ return {
       		dependencies = { 'nvim-lua/plenary.nvim' },
 		config = function() 
 			require("plugins.telescope.config.keymap")
+			require("plugins.telescope.config.telescope")
 		end,
 	},
 	{
