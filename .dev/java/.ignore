@@ -2,3 +2,6 @@
 /.mvn/
 mvnw.cmd
 mvnw
+.project
+.classpath
+/.settings/
