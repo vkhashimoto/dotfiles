@@ -1,0 +1,47 @@
+#!/bin/bash
+
+
+###################################################################
+#Script Name	: root-dir.sh
+#Description	: Change the shell to the root directory of a Maven project, 
+#		: checking if the directory has the file pom.xml
+#Usage		: . root-dir.sh
+#Usage		: source root-dir.sh
+#Args		: N/A
+#Author		: vkhashimoto
+#Email		: me@vkhashimoto.dev
+###################################################################
+
+usage() {
+	echo "Usage: "
+	echo "   . root-dir.sh"
+	echo "   source root-dir.sh"
+	echo "   sdev root-dir.sh"
+	echo "------------------------------------"
+	echo "You start to run the script"
+ 	echo "  in your current shell"
+	return
+}
+
+
+check_dir() {
+	if [ "$current_dir" == "/" -o -z "$current_dir" ]; then
+		echo "[ERROR]: Project root folder not found."
+		return
+	fi
+	find $current_dir -maxdepth 1 -name Cargo.lock | grep \/ >> /dev/null 2>&1
+	if [ "$?" -ne "0" ]; then
+		current_dir=$(echo "${current_dir%/*}")
+		check_dir
+	fi
+}
+
+# Check if script is not being sourced
+if [ -z "$PS1" ]; then
+	usage
+else
+	current_dir=$(pwd)
+	check_dir
+	cd $current_dir
+fi
+

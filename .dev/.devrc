@@ -21,7 +21,7 @@ _sdev() {
 
 	if [ "$prev" == "set-env" ]; then
 		#TODO: List all lang folder
-		autocomplete="java"
+		autocomplete="java rust"
 		COMPREPLY=( $(compgen -W "$autocomplete" -- $cur) )
 
 	fi
