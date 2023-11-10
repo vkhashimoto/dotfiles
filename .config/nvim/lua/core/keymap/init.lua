@@ -9,3 +9,4 @@ vim.opt.clipboard = "unnamedplus"
 
 map("i", "jk", "<ESC>")
 map("i", "<ESC>", "<nop>")
+map("t", "jk", "<C-\\><C-n>")
