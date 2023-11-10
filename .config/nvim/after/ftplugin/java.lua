@@ -49,6 +49,7 @@ local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local root_markers = { "gradlew", "mvnw", ".git", "pom.xml", "build.gradle" }
 local root_dir = require("jdtls.setup").find_root(root_markers)
 local workspace_folder = os.getenv("HOME") .. "/.local/share/jdtls-workspace/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
+local jdtls = require("jdtls")
 
 local capabilities = vim.tbl_deep_extend(
 	"force",
@@ -64,6 +65,7 @@ local settings = {
 				url = "<FORMATTER_FILE_PATH>"
 			}
 		},
+		saveActions = { organizeImports = true },
 	}
 }
 local config = {
@@ -135,3 +137,13 @@ vim.bo.tabstop = 4
 vim.bo.shiftwidth = 4
 
 
+vim.api.nvim_create_augroup("jdtls", { clear = true })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = "jdtls",
+	desc = "Format on Save",
+    	pattern = "*.java",
+    	callback = function()
+		vim.lsp.buf.format()
+    	end,
+})
