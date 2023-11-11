@@ -130,6 +130,8 @@ pmap("n", "<leader>df", vim.lsp.buf.format, {})
 pmap("n", "<leader>da", vim.lsp.buf.code_action, {})
 pmap("n", "<leader>dd", vim.lsp.buf.definition, {})
 pmap("n", "<leader>dr", vim.lsp.buf.references, {})
+pmap("n", "<leader>dtn", ":TestNearest -strategy=neovim<CR>", {});
+pmap("n", "<leader>dtf", ":TestFile -strategy=neovim<CR>", {});
 
 
 -- Formatting settings
