@@ -68,6 +68,7 @@ local settings = {
 		saveActions = { organizeImports = true },
 	}
 }
+local microsoft_debug_plugin_path = "<MICROSOFT_DEBUG_PLUGIN_PATH>"
 local config = {
 	cmd = { 
 	    'java',
@@ -85,6 +86,11 @@ local config = {
 	    '-data', workspace_folder,
 	},
 	settings = settings,
+	init_options = {
+		bundles = {
+			vim.fn.glob(microsoft_debug_plugin_path, 1),
+		},
+	},
 	root_dir = root_dir,
 }
 
@@ -112,6 +118,12 @@ for key, value in pairs(config.cmd) do
 	end
 end
 
+if microsoft_debug_plugin_path == "<MICROSOFT_DEBUG_PLUGIN_PATH>" then
+	vim.notify("microsoft debug plugin path not set", vim.log.levels.ERROR, {
+		title = "Java DE"
+	})
+	error = true
+end
 if error then
 	return
 end
@@ -120,6 +132,7 @@ end
 require("jdtls").start_or_attach(config)
 
 --TODO: Use config.on_attach
+--require("jdtls.dap").setup_dap_main_class_configs()
 local pmap = require("core.keymap.utils").pmap
 pmap("n", "<leader>wa", function() 
 	local new_folder = vim.fn.input("Add new folder to workspace: ") 

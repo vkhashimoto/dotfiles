@@ -17,5 +17,6 @@ require("lazy").setup {
 		{ import = "plugins.lsp" },
 		{ import = "plugins.telescope" },
 		{ import = "plugins.utils" },
+		{ import = "plugins.debugger" },
 	}
 }
