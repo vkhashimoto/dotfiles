@@ -91,6 +91,9 @@ local config = {
 			vim.fn.glob(microsoft_debug_plugin_path, 1),
 		},
 	},
+	on_attach = function(client, bufnr)
+		require("jdtls.dap").setup_dap_main_class_configs()
+	end,
 	root_dir = root_dir,
 }
 
@@ -131,8 +134,10 @@ end
 
 require("jdtls").start_or_attach(config)
 
+local dap = require("dap");
+local dapui = require("dapui");
+dapui.setup()
 --TODO: Use config.on_attach
---require("jdtls.dap").setup_dap_main_class_configs()
 local pmap = require("core.keymap.utils").pmap
 pmap("n", "<leader>wa", function() 
 	local new_folder = vim.fn.input("Add new folder to workspace: ") 
@@ -146,6 +151,29 @@ pmap("n", "<leader>dr", vim.lsp.buf.references, {})
 pmap("n", "<leader>dtn", ":TestNearest -strategy=neovim<CR>", {});
 pmap("n", "<leader>dtf", ":TestFile -strategy=neovim<CR>", {});
 
+pmap("n", "<leader>dbb", function()
+	dap.toggle_breakpoint()
+end, {});
+
+pmap("n", "<leader>dbc", function()
+	dap.continue()
+end, {});
+
+pmap("n", "<leader>dbi", function() 
+	dap.step_into()
+end, {});
+
+pmap("n", "<leader>dbo", function() 
+	dap.step_over()
+end, {});
+
+pmap("n", "<leader>dbt", function()
+	dap.terminate()
+end, {});
+
+pmap("n", "<leader>dbv", function()
+	dapui.toggle()
+end, {});
 
 -- Formatting settings
 vim.bo.tabstop = 4
