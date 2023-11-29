@@ -38,6 +38,11 @@ ls.add_snippets("java", {
 	s("now", {
 		t({ "LocalDateTime now = LocalDateTime.now();" }),
 		t({ "", "" }), i(0),
+	}),
+	s("/*", {
+		t({ "/**" }),
+		t({ "", "* " }), i(0),
+		t({ "", "*/" })
 	})
 })
 
