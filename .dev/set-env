@@ -1,0 +1,11 @@
+# vim: filetype=sh
+
+
+if [ -z "${DEV_ENV_ROOT_FOLDER}" ]; then
+	echo "ERROR: Environment variable DEV_ENV_ROOT_FOLDER not found or set"
+else
+	#TODO: Do not add duplicated folders
+	#TODO: Remove folder when changing env
+	export DEV_ENV_NAME=$1
+	export PATH="$DEV_ENV_ROOT_FOLDER/$DEV_ENV_NAME:$PATH"
+fi

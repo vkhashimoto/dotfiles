@@ -1,0 +1,39 @@
+# vim: filetype=sh
+
+
+DEV_ENV_NAME="none"
+DEV_ENV_ROOT_FOLDER="~/.dev"
+
+export PATH="$DEV_ENV_ROOT_FOLDER:$PATH"
+
+_sdev() {
+	local cur="${COMP_WORDS[COMP_CWORD]}"
+  	local prev=${COMP_WORDS[COMP_CWORD-1]}
+	COMPREPLY=()
+	if [ "$prev" == "sdev" ]; then
+		autocomplete="set-env"
+		if [ ! -z "${DEV_ENV_NAME}" ] && [ "${DEV_ENV_NAME}" != "none" ]; then
+			#TODO: List all file from lang folder
+			autocomplete="root-dir $autocomplete"
+		fi
+		COMPREPLY=( $(compgen -W "$autocomplete" -- $cur) )
+	fi
+
+	if [ "$prev" == "set-env" ]; then
+		#TODO: List all lang folder
+		autocomplete="java rust"
+		COMPREPLY=( $(compgen -W "$autocomplete" -- $cur) )
+
+	fi
+	
+}
+
+complete -F "_sdev" "sdev"
+
+sdev() {
+	if [ -z "${DEV_ENV_ROOT_FOLDER}" ]; then
+		echo "ERROR: Environment variable DEV_ENV_ROOT_FOLDER not found or set"
+	else
+		source $@
+	fi
+}
