@@ -81,7 +81,17 @@
 		enable = true;
 		shellAliases = {
 			gs = "git status";
+			#gd = "git diff";
 		};
+		bashrcExtra = ''
+function gd() {
+    if [ ! -f $1 ]; then
+        git diff $(find . -name $1)
+    else
+        git diff $1
+    fi
+}
+		'';
 	};
 
 	programs.rofi = {
@@ -91,7 +101,7 @@
 	services.polybar = {
 		enable = true;
 		script = "/usr/bin/env polybar main &";
-		settings = {
+		config = {
 			"bar/main" = {
 				monitor = "HDMI-1";
 				modules-right = "date";
@@ -101,9 +111,10 @@
 			};
 			"module/date" = {
 				"type" = "internal/date";
-				"interval" = "1.0";
-				"date" = "%Y-%m-%d%";
+				"interval" = "5.0";
+				"date" = "%Y-%m-%d";
 				"time" = "%H:%M";
+				"label" = "%date% %time%";
 			};
 		};
 	};
