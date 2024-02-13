@@ -30,6 +30,8 @@
     pkgs.rofi
     pkgs.polybar
     pkgs.dconf
+    pkgs.libsForQt5.dolphin
+    pkgs.libsForQt5.qt5ct
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -122,6 +124,7 @@
 			};
 		};
 	};
+
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
