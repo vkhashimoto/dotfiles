@@ -28,7 +28,7 @@
 		users.vkhashimoto = {
 			isNormalUser = true;
 			home = "/home/vkhashimoto";
-			extraGroups = [ "wheel" ];
+			extraGroups = [ "wheel" "libvirtd" ];
 		};
 	};
 
@@ -122,6 +122,7 @@
 		pulse.enable = true;
 	};
   system.stateVersion = "23.11";
+  virtualisation.libvirtd.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 }

@@ -29,6 +29,7 @@
     pkgs.virt-manager
     pkgs.rofi
     pkgs.polybar
+    pkgs.dconf
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -110,6 +111,17 @@
 	};
 	home.file.".config/bspwm/bspwmrc".source = .config/bspwm/bspwmrc;
 	home.file.".config/sxhkd/sxhkdrc".source = .config/sxhkd/sxhkdrc;
+
+
+	dconf = {
+		enable = true;
+		settings = {
+			"org/virt-manager/virt-manager/connections" = {
+				autoconnect = [ "qemu:///system" ];
+				uris = [ "qemu:///system" ];
+			};
+		};
+	};
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
