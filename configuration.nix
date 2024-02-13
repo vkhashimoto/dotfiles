@@ -35,9 +35,9 @@
 	# boot
 	boot = {
 		#kernelPackages = pkgs.linuxPackages_latest;
-		kernelParams = [
-			"debug"
-		];
+		#kernelParams = [
+		#	"debug"
+		#];
 		loader = {
 			systemd-boot = {
 				enable = true;
@@ -45,15 +45,10 @@
 			};
 			efi = {
 				canTouchEfiVariables = true;
-				#efiSysMountPoint = "/boot/efi";
 			};
 		};
-		initrd.luks.devices."root".preLVM = true;
-		initrd.luks.devices."root".device = "/dev/disk/by-partlabel/root";
-		#initrd.luks.devices.crypt = {
-		#	device = "/dev/sda2";
-		#	preLVM = true;
-		#};
+		initrd.luks.devices."droot".preLVM = true;
+		initrd.luks.devices."droot".device = "/dev/disk/by-partlabel/droot";
 	};
 	
 	# filesystems
@@ -70,16 +65,10 @@
 	};
 	
 
+	# TODO: Enable Wi-Fi
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-
-  # Set your time zone.
-  # time.timeZone = "Europe/Amsterdam";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -92,10 +81,17 @@
   # X11
   services.xserver.xkb.layout = "br";
 	services.xserver = {
+		xrandrHeads = [
+			{ output = "DP-1"; primary = false; }
+			{ output = "HDMI-1"; primary = true; monitorConfig = "Option \"Below\" \"multihead1\""; }
+
+		];
 		enable = true;
 		# TODO: Move this configuration to user settings
 		windowManager.bspwm.enable = true;
-		#windowManager.bspwm.configFile = pkgs.writeShellScript "bspwmrc"
+		windowManager.bspwm.configFile = "/home/vkhashimoto/.config/bspwm/bspwmrc";
+		# TODO: This code is needed on bootstrap
+		#windowManager.bspwm.configFile = "/home/vkhashimoto/.config/bspwm/bspwmrc";
 		#	''
 		#		sxhkd &
 		#		kitty &
@@ -114,7 +110,17 @@
 		git
 		kitty
 		firefox
+		pavucontrol
 	];
+
+	# audio
+	security.rtkit.enable = true;
+	services.pipewire = {
+		enable = true;
+		alsa.enable = true;
+		alsa.support32Bit = true;
+		pulse.enable = true;
+	};
   system.stateVersion = "23.11";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
