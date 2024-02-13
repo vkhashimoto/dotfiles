@@ -24,6 +24,10 @@
     pkgs.bash
     pkgs.bspwm
     pkgs.sxhkd
+    pkgs.qemu
+    pkgs.libvirt
+    pkgs.virt-manager
+    pkgs.rofi
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -74,6 +78,10 @@
 		shellAliases = {
 			gs = "git status";
 		};
+	};
+
+	programs.rofi = {
+		enable = true;
 	};
 
 	home.file.".config/bspwm/bspwmrc".source = .config/bspwm/bspwmrc;
