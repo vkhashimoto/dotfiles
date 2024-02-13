@@ -28,6 +28,7 @@
     pkgs.libvirt
     pkgs.virt-manager
     pkgs.rofi
+    pkgs.polybar
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -84,6 +85,29 @@
 		enable = true;
 	};
 
+	services.polybar = {
+		enable = true;
+		script = "/usr/bin/env polybar main &";
+		settings = {
+			"bar/main" = {
+				monitor = "HDMI-1";
+				modules-right = "date";
+				bottom = false;
+				height = 30;
+				line-size = 7;
+			};
+			"module/date" = {
+				"type" = "internal/date";
+				"interval" = "1.0";
+				"date" = "%Y-%m-%d%";
+				"time" = "%H:%M";
+			};
+		};
+	};
+
+	systemd.user.services.polybar = {
+		Install.WantedBy = [ "graphical-session.target" ];
+	};
 	home.file.".config/bspwm/bspwmrc".source = .config/bspwm/bspwmrc;
 	home.file.".config/sxhkd/sxhkdrc".source = .config/sxhkd/sxhkdrc;
 
