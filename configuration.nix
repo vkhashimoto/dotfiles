@@ -14,8 +14,9 @@
 
 	# networking
 	networking = {
-		useDHCP = true;
+		#useDHCP = true;
 		#interfaces.<interface-name>.useDHCP = true;
+		networkmanager.enable = true;
 		hostName = "maindev";
 		firewall = {
 			enable = true;
@@ -28,13 +29,14 @@
 		users.vkhashimoto = {
 			isNormalUser = true;
 			home = "/home/vkhashimoto";
-			extraGroups = [ "wheel" "libvirtd" ];
+			extraGroups = [ "wheel" "libvirtd" "networkmanager" ];
 		};
 	};
 
 	# boot
 	boot = {
 		#kernelPackages = pkgs.linuxPackages_latest;
+		extraModulePackages = with config.boot.kernelPackages; [ rtl8814au ];
 		#kernelParams = [
 		#	"debug"
 		#];
@@ -111,6 +113,8 @@
 		kitty
 		firefox
 		pavucontrol
+		pciutils
+		usbutils
 	];
 
 	# audio
