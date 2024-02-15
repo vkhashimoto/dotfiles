@@ -26,10 +26,12 @@ in {
 					separator = "|";
 					separator-foreground = separator-color;
 					modules-left = "bspwm";
+					modules-center = "title";
 					modules-right = "cpu memory filesystem pipewire date";
 					module-margin = 1;
 					background = background-color;
 					foreground = foreground-color;
+					enable-ipc = true;
 				};
 				"module/date" = {
 					"type" = "internal/date";
@@ -93,6 +95,9 @@ in {
 					click-left = "~/.config/polybar/pipewire.sh mute &";
 					scroll-up = "~/.config/polybar/pipewire.sh up &";
 					scroll-down = "~/.config/polybar/pipewire.sh down &";
+				};
+				"module/title" = {
+					type = "internal/xwindow";
 				};
 			};
 		};

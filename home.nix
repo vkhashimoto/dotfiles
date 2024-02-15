@@ -35,6 +35,7 @@
     pkgs.dconf
     pkgs.libsForQt5.dolphin
     pkgs.libsForQt5.qt5ct
+    pkgs.vlc
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -139,6 +140,11 @@ function gd() {
 	};
 	home.file.".config/bspwm/bspwmrc".source = .config/bspwm/bspwmrc;
 	home.file.".config/sxhkd/sxhkdrc".source = .config/sxhkd/sxhkdrc;
+	home.file.".config/polybar/show-hide.sh" = {
+		source = .config/polybar/show-hide.sh;
+		#TODO: Make executable only for the user
+		executable = true;
+	};
 	home.file.".config/polybar/pipewire.sh" = {
 		source = .config/polybar/pipewire.sh;
 		executable = true;

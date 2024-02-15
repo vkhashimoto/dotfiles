@@ -30,6 +30,10 @@ super + {_,shift + }w
 super + {t,shift + t,s,f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
+# hide bar
+super + p
+	~/.config/polybar/show-hide.sh
+
 
 ##TODO: Change "super" mapping on keyboard
 ## super + {_,shift + }{1-8}
