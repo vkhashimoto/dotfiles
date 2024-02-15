@@ -60,7 +60,7 @@ in {
 					mount-0 = "/";
 					interval = 60;
 					warn-percentage = 80;
-					label-mounted = "%mountpoint% %percentage_free%%";
+					label-mounted = "%mountpoint% %percentage_used%%";
 					label-warn = "%mountpoint% WARN";
 					format-warn = "<label-warn>";
 					format-warn-foreground = alert-color;
