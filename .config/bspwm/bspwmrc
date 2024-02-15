@@ -10,6 +10,9 @@ bspc monitor HDMI-1 -d 'I' 'II' 'III' 'IV'
 bspc monitor DP-1 -n sec
 bspc monitor HDMI-1 -n pri
 
+# reorder monitor order
+bspc wm --reorder-monitors pri sec
+
 # focus on the primary desktop
 bspc monitor -f pri
 
@@ -19,3 +22,5 @@ bspc config window_gap          10
 
 ## Set the border colors.
 bspc config focused_border_color "#00FF01"
+
+bspc rule -a "Pavucontrol" state=floating

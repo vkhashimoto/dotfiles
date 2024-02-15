@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
 {
+	imports = [
+		./modules/polybar.nix
+	];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "vkhashimoto";
@@ -98,32 +101,48 @@ function gd() {
 		enable = true;
 	};
 
-	services.polybar = {
-		enable = true;
-		script = "/usr/bin/env polybar main &";
-		config = {
-			"bar/main" = {
-				monitor = "HDMI-1";
-				modules-right = "date";
-				bottom = false;
-				height = 30;
-				line-size = 7;
-			};
-			"module/date" = {
-				"type" = "internal/date";
-				"interval" = "5.0";
-				"date" = "%Y-%m-%d";
-				"time" = "%H:%M";
-				"label" = "%date% %time%";
-			};
-		};
-	};
+
+
+	#background-color = "#FFFFFF";
+
+#	services.polybar = {
+#		enable = true;
+#		script = "/usr/bin/env polybar main &";
+#		config = {
+#			"bar/main" = {
+#				monitor = "HDMI-1";
+#				line-size = 7;
+#				width = "90%";
+#				height = 22;
+#				offset-x = "6%";
+#				offset-y = "1%";
+#				radius = "6.0";
+#				fixed-center = true;
+#				bottom = false;
+#				separator = "|";
+#				modules-right = "date";
+#				background = "#272932";
+#				foreground = "#37EBF3";
+#			};
+#			"module/date" = {
+#				"type" = "internal/date";
+#				"interval" = "5.0";
+#				"date" = "%Y-%m-%d";
+#				"time" = "%H:%M";
+#				"label" = "%date% %time%";
+#			};
+#		};
+#	};
 
 	systemd.user.services.polybar = {
 		Install.WantedBy = [ "graphical-session.target" ];
 	};
 	home.file.".config/bspwm/bspwmrc".source = .config/bspwm/bspwmrc;
 	home.file.".config/sxhkd/sxhkdrc".source = .config/sxhkd/sxhkdrc;
+	home.file.".config/polybar/pipewire.sh" = {
+		source = .config/polybar/pipewire.sh;
+		executable = true;
+	}; 
 
 
 	dconf = {

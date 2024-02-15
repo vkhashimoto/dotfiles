@@ -107,6 +107,7 @@
 	};
 	
 	# packages
+	#TODO: Move packages to user level
 	environment.systemPackages = with pkgs; [
 		neovim
 		git
@@ -115,6 +116,7 @@
 		pavucontrol
 		pciutils
 		usbutils
+		pamixer
 	];
 
 	# audio
