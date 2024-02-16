@@ -132,6 +132,7 @@
 	environment.variables = {
 		"QT_QPA_PLATFORMTHEME" = "qt5ct";
 	};
+	
   system.stateVersion = "23.11";
   virtualisation.libvirtd.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

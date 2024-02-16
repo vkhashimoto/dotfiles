@@ -18,6 +18,8 @@
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
+	# update cache
+	fonts.fontconfig.enable = true;
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
@@ -36,6 +38,8 @@
     pkgs.libsForQt5.dolphin
     pkgs.libsForQt5.qt5ct
     pkgs.vlc
+    pkgs.iosevka
+    #pkgs.jetbrains-mono
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -149,7 +153,14 @@ function gd() {
 		source = .config/polybar/pipewire.sh;
 		executable = true;
 	}; 
-
+	#TODO: Change the font with a variable
+	home.file.".config/kitty/kitty.conf".text =''
+	font_family Iosevka
+	bold_font Iosevka Bold
+	italic_font Iosevka Italic
+	bold_italic_font auto
+	font_size 14.0
+	'';
 
 	dconf = {
 		enable = true;
