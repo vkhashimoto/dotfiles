@@ -28,4 +28,16 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   # This is needed when running inside VBox
   #virtualisation.virtualbox.guest.enable = true;
+
+  #GPU
+  hardware.nvidia = {
+	open = true;
+	modesetting.enable = true;
+	powerManagement.enable = false;
+	powerManagement.finegrained = false;
+	#nvidiaSettings = true;
+	#pac
+  };
+
+  hardware.opengl.enable = true;
 }

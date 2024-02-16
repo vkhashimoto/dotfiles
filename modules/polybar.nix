@@ -14,7 +14,7 @@ in {
 			script = "/usr/bin/env polybar main &";
 			config = {
 				"bar/main" = {
-					monitor = "HDMI-1";
+					monitor = "HDMI-0";
 					line-size = 7;
 					width = "90%";
 					height = 22;

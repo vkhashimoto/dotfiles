@@ -83,11 +83,14 @@
   # X11
   services.xserver.xkb.layout = "br";
 	services.xserver = {
+		videoDrivers = [ "nvidia" ];
 		xrandrHeads = [
-			{ output = "DP-1"; primary = false; }
-			{ output = "HDMI-1"; primary = true; monitorConfig = "Option \"Below\" \"multihead1\""; }
-
+			{ output = "DP-0"; primary = false; monitorConfig = "Option \"Above\" \"multihead2\"";}
+			{ output = "HDMI-0"; primary = true; monitorConfig = "Option \"Below\" \"multihead1\""; }
 		];
+		displayManager.setupCommands = ''
+		${pkgs.xorg.xrandr}/bin/xrandr --output HDMI-0 --primary --below DP-0
+		'';
 		enable = true;
 		# TODO: Move this configuration to user settings
 		windowManager.bspwm.enable = true;
@@ -117,7 +120,17 @@
 		pciutils
 		usbutils
 		pamixer
+		cudaPackages.cudatoolkit
+		(blender.override {
+    			cudaSupport = true;
+		})
 	];
+
+  nixpkgs.config.packageOverrides = self : rec {
+    blender = self.blender.override {
+      cudaSupport = true;
+    };
+  };
 
 	# audio
 	security.rtkit.enable = true;
