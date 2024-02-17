@@ -11,7 +11,14 @@ in {
 	config = {
 		services.polybar = {
 			enable = true;
-			script = "/usr/bin/env polybar main &";
+			#"polybar main &";
+			script = ''
+			polybar main &
+			polybar main2 &
+			'';
+			#"/usr/bin/env polybar main2 &"
+			#"(polybar -q main &) && (polybar -q main2 &)"
+			#'';
 			config = {
 				"bar/main" = {
 					monitor = "HDMI-0";
@@ -27,6 +34,24 @@ in {
 					separator-foreground = separator-color;
 					modules-left = "bspwm";
 					modules-center = "title";
+					modules-right = "cpu memory filesystem pipewire date";
+					module-margin = 1;
+					background = background-color;
+					foreground = foreground-color;
+					enable-ipc = true;
+				};
+				"bar/main2" = {
+					monitor = "DP-0";
+					line-size = 7;
+					width = "90%";
+					height = 22;
+					offset-x = "5%";
+					offset-y = "1%";
+					radius = "6.0";
+					fixed-center = true;
+					bottom = false;
+					separator = "|";
+					separator-foreground = separator-color;
 					modules-right = "cpu memory filesystem pipewire date";
 					module-margin = 1;
 					background = background-color;

@@ -126,6 +126,7 @@
 		})
 		slock
 		lutris
+		protontricks
 	];
 
 	programs.slock.enable = true;
