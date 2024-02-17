@@ -8,7 +8,7 @@
 
   boot.initrd.availableKernelModules = [ "ata_piix" "ohci_pci" "ehci_pci" "ahci" "sd_mod" "sr_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ ];
+  boot.kernelModules = [ "nvidia_uvm" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
