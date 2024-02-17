@@ -124,8 +124,11 @@
 		(blender.override {
     			cudaSupport = true;
 		})
+		slock
+		lutris
 	];
 
+	programs.slock.enable = true;
   nixpkgs.config.packageOverrides = self : rec {
     blender = self.blender.override {
       cudaSupport = true;
@@ -146,6 +149,7 @@
 		"QT_QPA_PLATFORMTHEME" = "qt5ct";
 	};
 	
+	programs.steam.enable = true;
   system.stateVersion = "23.11";
   virtualisation.libvirtd.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
