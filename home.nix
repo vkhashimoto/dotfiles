@@ -160,6 +160,9 @@ function gd() {
 		source = .config/polybar/pipewire.sh;
 		executable = true;
 	}; 
+	home.file.".config/nvim/init.lua".text = ''
+vim.api.nvim_set_keymap("i", "jk", "<ESC>", { noremap = true} )
+	'';
 	#TODO: Change the font with a variable
 	home.file.".config/kitty/kitty.conf".text =''
 	font_family Iosevka

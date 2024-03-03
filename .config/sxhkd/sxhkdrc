@@ -79,3 +79,6 @@ super + {Left,Down,Up,Right}
 # close node
 super + q
 	bspc node -c
+
+super + e
+	dolphin
