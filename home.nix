@@ -1,8 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
 	imports = [
 		./modules/polybar.nix
+		./sh.nix
 	];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -92,22 +93,6 @@
     # EDITOR = "emacs";
   };
 
-	programs.bash = {
-		enable = true;
-		shellAliases = {
-			gs = "git status";
-			#gd = "git diff";
-		};
-		bashrcExtra = ''
-function gd() {
-    if [ ! -f $1 ]; then
-        git diff $(find . -name $1)
-    else
-        git diff $1
-    fi
-}
-		'';
-	};
 
 	programs.rofi = {
 		enable = true;
