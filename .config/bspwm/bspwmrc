@@ -3,12 +3,15 @@
 # init sxhkd
 sxhkd &
 
-bspc monitor DP-0 -d 'V' 'VI' 'VII' 'VII'
-bspc monitor HDMI-0 -d 'I' 'II' 'III' 'IV'
 
 # change monitor names
 bspc monitor DP-0 -n sec
 bspc monitor HDMI-0 -n pri
+
+#DP-0
+bspc monitor sec -d 'VI' 'VII' 'VIII' 'IX' 'X'
+#HDMI-0
+bspc monitor pri -d 'I' 'II' 'III' 'IV' 'V'
 
 # reorder monitor order
 bspc wm --reorder-monitors pri sec

@@ -127,9 +127,14 @@
 		slock
 		lutris
 		protontricks
+		(writeScriptBin "vboxmanage" ''
+			${pkgs.virtualbox}/bin/VBoxManage "$@"
+		'')
 	];
 
 	programs.slock.enable = true;
+	programs.thunar.enable = true;
+	programs.xfconf.enable = true;
   nixpkgs.config.packageOverrides = self : rec {
     blender = self.blender.override {
       cudaSupport = true;
@@ -153,6 +158,11 @@
 	programs.steam.enable = true;
   system.stateVersion = "23.11";
   virtualisation.libvirtd.enable = true;
+  virtualisation.podman = {
+	enable = true;
+	dockerCompat = true;
+	defaultNetwork.settings.dns_enabled = true;
+  };
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 }

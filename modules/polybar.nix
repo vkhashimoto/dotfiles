@@ -52,6 +52,8 @@ in {
 					bottom = false;
 					separator = "|";
 					separator-foreground = separator-color;
+					modules-left = "bspwm";
+					modules-center = "title";
 					modules-right = "cpu memory filesystem pipewire date";
 					module-margin = 1;
 					background = background-color;

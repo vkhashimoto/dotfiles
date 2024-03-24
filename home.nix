@@ -36,14 +36,15 @@
     pkgs.rofi
     pkgs.polybar
     pkgs.dconf
-    pkgs.libsForQt5.dolphin
-    pkgs.libsForQt5.qt5ct
-    pkgs.vlc
     pkgs.iosevka
-    #pkgs.jetbrains-mono
-    #pkgs.pureref
-    pkgs.godot_4
     pkgs.keepassxc
+    pkgs-unstable.logseq
+    pkgs.rustup
+    pkgs.clang_17
+    pkgs.xclip
+    pkgs.openssl_3_1
+    pkgs.podman-compose
+    pkgs.tmux
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the

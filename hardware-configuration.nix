@@ -28,6 +28,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   # This is needed when running inside VBox
   #virtualisation.virtualbox.guest.enable = true;
+  virtualisation.virtualbox.host.enable = true;
 
   #GPU
   hardware.nvidia = {
@@ -37,6 +38,12 @@
 	powerManagement.finegrained = false;
 	#nvidiaSettings = true;
 	#pac
+  };
+
+  #Logitech Mouse
+  hardware.logitech.wireless = {
+	enable = true;
+	enableGraphical = true;
   };
 
   hardware.opengl.enable = true;
